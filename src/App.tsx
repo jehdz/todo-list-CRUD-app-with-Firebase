@@ -1,10 +1,13 @@
 import Body from "./components/Body"
 import ListContainer from "./components/ListContainer"
+import Context from "./components/Context"
 
 function App() {
 
   return (
-       <Body/>
+        <Context>
+          <Body/>
+        </Context>
   )
 }
 
