@@ -2,19 +2,13 @@ import bglm from '../assets/todo-app-main/images/bg-mobile-light.jpg'
 import bgld from '../assets/todo-app-main/images/bg-desktop-light.jpg'
 import ListContainer from './ListContainer'
 import { useGlobalContext } from './Context'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 
 export default function Body() {
  
     const elementRef = useRef<HTMLParagraphElement>(null!); 
     const { elementWidth } = useGlobalContext()
-
-    useEffect(() => {
-        console.log(elementRef.current.getBoundingClientRect().width)
-        console.log(elementWidth)
-    }, )
   
-
     return (
         <main className="min-h-screen relative bg-vlight-grey">
             <div className='h-60'>
@@ -30,9 +24,25 @@ export default function Body() {
                   <p>Active</p>  
                   <p>Completed</p>  
                 </div>
-                <p ref={elementRef} className={`${elementWidth ? `w-[${elementWidth}px]` : ''} border mt-8 text-center text-sm`}>
+                <div className='px-4 flex justify-center items-center mt-8'>
+                {
+                  elementWidth ? (
+                  <div style={{
+                    width: '54.04px'
+                  }}/> 
+                  ) : ''
+                }
+                <p style={{
+                    width: elementWidth ? `${elementWidth}px` : ''
+                }} ref={elementRef} className='flex-1 text-center text-xs'>
                     Drag and drop to reorder list
                 </p>
+                {
+                   elementWidth ? ( <div style={{
+                    width: '84.23px'
+                  }}/> ) : ''
+                }
+                </div>
              </footer>
                 </div>
             </div>
