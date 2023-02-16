@@ -9,7 +9,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'vlight-grey': 'hsl(0, 0%, 98%)',        
+        'vlight-grey': 'hsl(0, 0%, 98%)',      
+        'pblue':  'hsl(192, 100%, 67%)',
+        'ppurple':  'hsl(280, 87%, 65%)',
       },
     },
   },

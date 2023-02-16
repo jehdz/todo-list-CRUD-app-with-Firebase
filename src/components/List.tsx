@@ -32,12 +32,14 @@ export default function List() {
      return (
         <div className="rounded-md bg-white my-4 shadow-lg w-full">
          <div className='border-b'>
+
             <div className='py-4 px-4 flex justify-between items-center'>       
             <div className='flex space-x-3'>
-            <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100
-             border-gray-300 rounded focus:ring-blue-500
-             dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-            <label htmlFor='default-checkbox' className='text-sm'>Complete online JavaScript course</label>
+
+            <input type="checkbox" className="w-4 h-4 bg-gray-100 
+            focus:ring-0 rounded-full bg-gradient-to-r from-pblue to-ppurple 
+            checked:text-white"/>
+            <label className='text-sm'>Complete online JavaScript course</label>
             </div>
             <img src={iconCross} alt='cancel' className='object-contain cursor-pointer'/>
             </div>
