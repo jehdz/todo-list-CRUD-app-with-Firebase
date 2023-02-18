@@ -10,7 +10,7 @@ export default function List() {
    const elementOneRef = useRef<HTMLParagraphElement>(null!);  
    const elementTwoRef = useRef<HTMLDivElement>(null!);  
    const elementThreeRef = useRef<HTMLParagraphElement>(null!);  
-
+   
    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
    
 
@@ -36,10 +36,14 @@ export default function List() {
             <div className='py-4 px-4 flex justify-between items-center'>       
             <div className='flex space-x-3'>
 
-            <input type="checkbox" className="w-4 h-4 bg-gray-100 
-            focus:ring-0 rounded-full bg-gradient-to-r from-pblue to-ppurple 
+           <label className='text-sm flex'>
+            <input type="checkbox"
+            // value={} 
+            className="w-4 h-4 bg-gray-100 mr-3
+            focus:ring-0 rounded-full checked:bg-gradient-to-r checked:from-pblue checked:to-ppurple 
             checked:text-white"/>
-            <label className='text-sm'>Complete online JavaScript course</label>
+               Complete online JavaScript course
+            </label>
             </div>
             <img src={iconCross} alt='cancel' className='object-contain cursor-pointer'/>
             </div>
