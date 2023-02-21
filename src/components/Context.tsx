@@ -1,6 +1,6 @@
 import React, { useContext, useState, useReducer } from "react";
 import { reducer } from "./reducer";
-import { HandleDisplayAll, HandleFilter, HandleDelete, State } from "./types";
+import { HandleDisplayAll, HandleFilter, HandleDelete, State, HandleComplete, HandleClearCompleted } from "./types";
 import { HandleSubmitType } from "./types";
 import { ValueProp } from "./types";
 import { ContextProp } from "./types";
@@ -14,14 +14,15 @@ export default function Context({ children }: ContextProp) {
     
     const [state, dispatch] = useReducer(reducer, initialState);
     const [ elementWidth , setElementWidth ] = useState<number | null>(null);
+    const [ theme, setTheme ] = useState<string>('')
 
     const handleSubmit: HandleSubmitType = ( title, status ) => {
         const id = uuid()
         dispatch({type: 'CREATE_NEW_TODO' , payload:{ id, title, status}})       
     }
 
-    const handleStateFilter: HandleFilter = ( title ) => {
-        dispatch({ type: 'HANDLE_STATE_FILTER', payload:{ title }})
+    const handleStateFilter: HandleFilter = ( status ) => {
+        dispatch({ type: 'HANDLE_STATE_FILTER', payload:{ status }})
     }
     
     const handleDisplayAll: HandleDisplayAll = () => {
@@ -32,8 +33,17 @@ export default function Context({ children }: ContextProp) {
         dispatch({ type: 'HANDLE_DELETE', payload: { id }})
     } 
 
+    const handleComplete: HandleComplete = (id) => {
+        dispatch({ type: 'HANDLE_COMPLETE', payload: { id }})
+    }
+
+    const handleClearCompleted: HandleClearCompleted = () => {
+        dispatch({ type: 'HANDLE_CLEAR_COMPLETED'})
+    } 
+
     return (
-        <AppContext.Provider value={{ elementWidth, setElementWidth, state, handleSubmit, handleStateFilter, handleDelete}}>
+        <AppContext.Provider value={{ theme, setTheme, elementWidth, setElementWidth, state, 
+        handleSubmit, handleStateFilter, handleDelete, handleComplete, handleClearCompleted}}>
             {children}
          </AppContext.Provider>
     )

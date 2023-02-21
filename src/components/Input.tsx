@@ -11,7 +11,7 @@ export default function Input() {
 
     const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        handleSubmit(title, 'active')
+        handleSubmit(title, false)
         setTitle('')
     }
 

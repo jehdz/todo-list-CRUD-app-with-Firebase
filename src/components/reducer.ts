@@ -15,7 +15,7 @@ export const reducer = ( state: State, action: ActionType) : State => {
             return [...state, { id, title, status }]
 
         case 'HANDLE_STATE_FILTER':
-            const filtered = state.filter(item => item.title === action.payload.title);
+            const filtered = state.filter(item => item.status === action.payload.status);
             return [...filtered];  
        
         case 'HANDLE_DISPLAY_ALL':
@@ -23,8 +23,20 @@ export const reducer = ( state: State, action: ActionType) : State => {
 
         case 'HANDLE_DELETE':
             return state.filter( item => item.id !== action.payload.id )
+
+        case 'HANDLE_COMPLETE':
+            return state.map(item => {
+                if(item.id === action.payload.id) {
+                  return { ...item, status: !action.payload.status }
+                }
+                else {
+                    return item
+                }
+            })
+        case "HANDLE_CLEAR_COMPLETED":
+            return state.filter(item => item.status === false)
     }
 
-    throw new Error( 'no matching type')
+        throw new Error( 'no matching type')
 }
 
