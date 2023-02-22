@@ -7,10 +7,11 @@ import { useRef } from 'react'
 export default function Body() {
  
     const elementRef = useRef<HTMLParagraphElement>(null!); 
-    const { elementWidth } = useGlobalContext()
+    const { elementWidth, theme } = useGlobalContext()
   
     return (
-        <main className="min-h-screen relative bg-vlight-grey">
+      <div className={`theme-${theme}`}>
+        <main className="list-body min-h-screen relative">
             <div className='h-60'>
             <img src={bglm} alt='hero background' className='lg:hidden w-full h-full object-cover'/>
             <img src={bgld} alt='hero background' className='hidden lg:block w-full h-full object-cover'/>
@@ -47,5 +48,6 @@ export default function Body() {
                 </div>
             </div>
         </main>
+      </div>
     )
 }

@@ -14,7 +14,7 @@ export default function Context({ children }: ContextProp) {
     
     const [state, dispatch] = useReducer(reducer, initialState);
     const [ elementWidth , setElementWidth ] = useState<number | null>(null);
-    const [ theme, setTheme ] = useState<string>('')
+    const [ theme, setTheme ] = useState<string>('light')
 
     const handleSubmit: HandleSubmitType = ( title, status ) => {
         const id = uuid()

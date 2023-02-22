@@ -26,7 +26,7 @@ export default function List() {
 
     
      return (
-        <div className="rounded-md bg-white my-4 shadow-lg w-full">
+        <div className="list rounded-md bg-white my-4 shadow-lg w-full">
          {
             state.map(item => {
             const { id, title, status } = item;
@@ -40,7 +40,7 @@ export default function List() {
               <input type="checkbox"
               checked={status} 
               onChange={() => handleComplete(id!)}
-              className="w-4 h-4 bg-gray-100 mr-3
+              className="w-4 h-4 mr-3
               focus:ring-0 rounded-full checked:bg-gradient-to-r checked:from-pblue checked:to-ppurple 
               checked:text-white"/>
                {title}
@@ -48,7 +48,7 @@ export default function List() {
               </div>
               <img src={iconCross} alt='cancel' 
               onClick={() => handleDelete(id!)} //non-null example to prevent: "Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
-             //  Type 'undefined' is not assignable to type 'string'.ts(2345)" erorr
+             // Type 'undefined' is not assignable to type 'string'.ts(2345)" erorr
               className='object-contain cursor-pointer'/>
               </div> 
               </div>

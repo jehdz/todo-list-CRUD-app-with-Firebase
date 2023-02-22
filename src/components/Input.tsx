@@ -20,7 +20,7 @@ export default function Input() {
             <input value={title} 
             onChange={(e) => setTitle(e.target.value)}
             placeholder='Create a new todo...'
-            className="bg-white pl-6 w-full h-12 rounded-lg mt-10 outline-none"/>
+            className="list pl-6 w-full h-12 rounded-lg mt-10 outline-none"/>
         </form>
     )
 }
