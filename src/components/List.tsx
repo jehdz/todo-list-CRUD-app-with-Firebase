@@ -32,11 +32,11 @@ export default function List() {
             const { id, title, status } = item;
 
             return (
-              <div className='border-b' key={id}>
+              <div className='single-item' key={id}>
               <div className='py-4 px-4 flex justify-between items-center'>       
               <div className='flex space-x-3'>
 
-              <label className='text-sm flex'>
+              <label className='text-sm flex list-text'>
               <input type="checkbox"
               checked={status} 
               onChange={() => handleComplete(id!)}
@@ -56,7 +56,7 @@ export default function List() {
             })
          }
 
-         <footer className='py-4 px-4 flex justify-between'>
+         <footer className='drag-color font-bold py-4 px-4 flex justify-between'>
          <p ref={elementOneRef} className='text-xs'>{state.filter(item => item.status === false).length} items left</p>
          <div ref={elementTwoRef} 
             className='flex-1 hidden md:flex justify-center items-center space-x-3 text-sm'>

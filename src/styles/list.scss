@@ -16,3 +16,22 @@ body {
         background: themed('list');
       } 
 }
+
+.drag-color {
+    @include themify($themes) {
+        color: themed('dragColor');
+      } 
+}
+
+.single-item {
+    @include themify($themes) {
+        border-bottom: themed('borderBottom');
+      }  
+}
+
+.list-text {
+    @include themify($themes) {
+        color: themed('listText');
+      }  
+}
+

@@ -1,13 +1,9 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useGlobalContext } from "./Context";
 
 export default function Input() {
-    const { handleSubmit, state } = useGlobalContext()
+    const { handleSubmit } = useGlobalContext()
     const [title, setTitle ] = useState<string>('');
-
-    useEffect(() => {
-        console.log(state)
-    }, [state])
 
     const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()

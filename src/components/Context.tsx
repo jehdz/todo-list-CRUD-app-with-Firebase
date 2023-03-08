@@ -5,7 +5,20 @@ import { HandleSubmitType } from "./types";
 import { ValueProp } from "./types";
 import { ContextProp } from "./types";
 import { v4 as uuid } from 'uuid';
+import { initializeApp } from "firebase/app";
 
+const firebaseConfig = {
+    apiKey: "AIzaSyB2Mnz669pSezmF3owUwL_BPSm9RMFf2OA",
+    authDomain: "todo-list-app-2a8be.firebaseapp.com",
+    projectId: "todo-list-app-2a8be",
+    storageBucket: "todo-list-app-2a8be.appspot.com",
+    messagingSenderId: "517189314629",
+    appId: "1:517189314629:web:206b83c96f6371789c1b2c",
+    measurementId: "G-QMG7FW0DN1"
+  };
+
+export const app = initializeApp(firebaseConfig);
+  
 const initialState : State = []
  
 export const AppContext = React.createContext({} as ValueProp)
