@@ -7,9 +7,9 @@ import { useGlobalContext } from './Context'
 import { useRef } from 'react'
 
 export default function Todo() {
-    
-    const elementRef = useRef<HTMLParagraphElement>(null!); 
-    const { elementWidth, theme } = useGlobalContext()
+
+   const elementRef = useRef<HTMLParagraphElement>(null!); 
+   const { elementWidth, theme } = useGlobalContext()
 
    return (
     <main className="list-body min-h-screen relative">
