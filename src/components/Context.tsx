@@ -18,10 +18,10 @@ const firebaseConfig = {
   };
 
 export const app = initializeApp(firebaseConfig);
-  
+
 const initialState : State = []
  
-export const AppContext = React.createContext({} as ValueProp)
+export const AppContext = React.createContext({} as ValueProp);
 
 export default function Context({ children }: ContextProp) {
     

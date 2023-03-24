@@ -11,7 +11,6 @@ export const reducer = ( state: State, action: ActionType) : State => {
             if(!title) {
               return state;
             }
-            
             return [...state, { id, title, status }]
 
         case 'HANDLE_STATE_FILTER':
@@ -27,6 +26,7 @@ export const reducer = ( state: State, action: ActionType) : State => {
         case 'HANDLE_COMPLETE':
             return state.map(item => {
                 if(item.id === action.payload.id) {
+                  console.log(action.payload.status, action.payload.id)
                   return { ...item, status: !action.payload.status }
                 }
                 else {
