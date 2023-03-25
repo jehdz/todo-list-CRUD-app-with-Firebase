@@ -4,6 +4,8 @@ import Input from './Input'
 import List from './List'
 import { useGlobalContext } from './Context'
 import { useToggle } from './hooks/useToggle'
+import { motion, AnimatePresence } from 'framer-motion'
+
 
 export default function ListContainer() {
 
@@ -17,8 +19,26 @@ export default function ListContainer() {
                 <div onClick={handleToggle}>
                 {
                    theme === 'light' ?
-                   <img src={iconMoon} alt='moon' className='object-contain cursor-pointer'/>
-                   :  <img src={iconSun} alt='moon' className='object-contain cursor-pointer'/>
+                   <AnimatePresence>
+                    <motion.div
+                      initial={{ y: 0, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ x: -50, opacity: 0 }}
+                      transition={{ type:'spring', ease: 'easeOut', duration: .05, stiffness:'70'}}
+                    >
+                    <img src={iconMoon} alt='moon' className='object-contain cursor-pointer'/>
+                    </motion.div>
+                   </AnimatePresence>
+                   : 
+                   <AnimatePresence>
+                    <motion.div
+                      initial={{ y: 0, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ x: -50, opacity: 0 }}
+                      transition={{ type:'spring', ease: 'easeOut', duration: .5, stiffness:'70'}} >
+                   <img src={iconSun} alt='moon' className='object-contain cursor-pointer'/>
+                    </motion.div>
+                   </AnimatePresence>
                 }
                 </div>
             </header>

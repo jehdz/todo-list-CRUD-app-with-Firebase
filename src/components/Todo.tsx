@@ -6,6 +6,7 @@ import ListContainer from './ListContainer'
 import { useGlobalContext } from './Context'
 import { useRef } from 'react'
 
+
 export default function Todo() {
 
    const elementRef = useRef<HTMLParagraphElement>(null!); 

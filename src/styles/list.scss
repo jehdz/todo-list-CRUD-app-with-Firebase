@@ -1,9 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap');
 @import './theme-variable.scss';
 
-body {
+
+
+body::-webkit-scrollbar {
+    display: none;
+  }
+  
+  body {
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+    overflow: hidden;
     font-family: 'Josefin Sans', sans-serif;
-}
+  }
+
+  .input {
+      @include themify($themes) {
+          background: themed('list');
+      } 
+  }
 
 .list-body {
     @include themify($themes) {
@@ -14,7 +29,19 @@ body {
 .list {
     @include themify($themes) {
         background: themed('list');
-      } 
+    } 
+    max-height: 300px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+         width: 10px;
+        }
+        
+    &::-webkit-scrollbar-thumb {
+        height: 20px;
+        background: rgb(164,167,192);   
+        border-radius: 10px;  
+    }
 }
 
 .drag-color {
