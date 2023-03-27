@@ -3,7 +3,7 @@
 
 
 
-body::-webkit-scrollbar {
+  body::-webkit-scrollbar {
     display: none;
   }
   
@@ -17,14 +17,33 @@ body::-webkit-scrollbar {
   .input {
       @include themify($themes) {
           background: themed('list');
+          color: themed('listText');
+      }
+    }
+
+  .completed {
+    @include themify($themes) {
+      color: themed('completed');
+     }
+  }
+    
+  .auth-card {
+      @include themify($themes) {
+        background: themed('list');
       } 
+      input {
+        @include themify($themes) {
+          background: themed('list');
+          color: themed('listText');
+      }
+      }
   }
 
-.list-body {
+  .list-body {
     @include themify($themes) {
         background: themed('bodyBackground');
       }
-}
+  }
 
 .list {
     @include themify($themes) {
@@ -34,13 +53,11 @@ body::-webkit-scrollbar {
     overflow-y: scroll;
 
     &::-webkit-scrollbar {
-         width: 10px;
+         width: 12px;
         }
         
     &::-webkit-scrollbar-thumb {
-        height: 20px;
         background: rgb(164,167,192);   
-        border-radius: 10px;  
     }
 }
 

@@ -3,7 +3,7 @@
 type Item = {
     id?: string,
     title?: string,
-    status?: boolean,
+    completed?: boolean,
     e?: React.FormEvent<HTMLFormElement>
 }
 
@@ -25,11 +25,11 @@ export type ActionType = ActionWithPayload | ActionWithoutPayload
 // dispatch function types
 
 export type HandleSubmitType = {
-    ( title: string, status: boolean): void
+    ( title: string, completed: boolean): void
  }
 
 export type HandleFilter = {
-    ( status: boolean): void
+    ( completed: boolean): void
 }
 
 export type HandleDisplayAll = {

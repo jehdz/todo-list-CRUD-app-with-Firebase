@@ -1,5 +1,9 @@
 import { State } from "./types"
 import { ActionType } from "./types"
+import { getFirestore } from "firebase/firestore";
+import { app } from "./Context";
+
+const db = getFirestore(app);
 
 export const reducer = ( state: State, action: ActionType) : State => {
 
@@ -7,14 +11,15 @@ export const reducer = ( state: State, action: ActionType) : State => {
 
         case 'CREATE_NEW_TODO' :      
             const { payload } = action;       
-            const { id, title, status } = payload;
+            const { id, title, completed } = payload;
             if(!title) {
               return state;
             }
-            return [...state, { id, title, status }]
+            
+            return [...state, { id, title, completed }]
 
         case 'HANDLE_STATE_FILTER':
-            const filtered = state.filter(item => item.status === action.payload.status);
+            const filtered = state.filter(item => item.completed === action.payload.completed);
             return [...filtered];  
        
         case 'HANDLE_DISPLAY_ALL':
@@ -26,15 +31,15 @@ export const reducer = ( state: State, action: ActionType) : State => {
         case 'HANDLE_COMPLETE':
             return state.map(item => {
                 if(item.id === action.payload.id) {
-                  console.log(action.payload.status, action.payload.id)
-                  return { ...item, status: !action.payload.status }
+                  console.log(action.payload.completed, action.payload.id)
+                  return { ...item, completed: !action.payload.completed }
                 }
                 else {
                     return item
                 }
             })
         case "HANDLE_CLEAR_COMPLETED":
-            return state.filter(item => item.status === false)
+            return state.filter(item => item.completed === false)
     }
 
         throw new Error( 'no matching type')

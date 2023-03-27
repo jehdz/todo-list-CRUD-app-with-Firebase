@@ -31,27 +31,32 @@ export default function List() {
         <div className="list rounded-md bg-white shadow-lg w-full">
          {
             state.map(item => {
-            const { id, title, status } = item;
+            const { id, title, completed } = item;
 
             return (
               <AnimatePresence key={id}>
               <motion.div 
                 initial={{ y: -30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -30, opacity: 0 }}
+                exit={{ y: 30, opacity: 0 }}
                 transition={{ type:'spring', ease: 'easeOut', duration: .5, stiffness:'70'}}
                 className='single-item'>
               <div className='py-4 px-4 flex justify-between items-center'>       
               <div className='flex space-x-3'>
 
-              <label className='text-sm flex list-text'>
+              <label className='text-sm flex font-bold list-text'>
               <input type="checkbox"
-              checked={status} 
+              checked={completed} 
               onChange={() => handleComplete(id!)}
               className="w-4 h-4 mr-3
-              focus:ring-0 rounded-full checked:bg-gradient-to-r checked:from-pblue checked:to-ppurple 
-              checked:text-white"/>
-               {title}
+              focus:ring-0 rounded-full checked:bg-gradient-to-r
+              checked:from-pblue checked:to-ppurple 
+              checked:text-white"/>          
+               {
+                 completed ? 
+                 <s className='completed'>{title}</s> 
+                 : <span>{title}</span>
+               }          
               </label>
               </div>
               <img src={iconCross} alt='cancel' 
@@ -67,7 +72,7 @@ export default function List() {
 
         </div>
          <footer className=' w-full drag-color font-bold py-4 px-4 flex justify-between'>
-         <p ref={elementOneRef} className='text-xs'>{state.filter(item => item.status === false).length} items left</p>
+         <p ref={elementOneRef} className='text-xs'>{state.filter(item => item.completed === false).length} items left</p>
          <div ref={elementTwoRef} 
             className='flex-1 hidden md:flex justify-center items-center space-x-3 text-sm'>
                <p className='cursor-pointer'>All</p>  

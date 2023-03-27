@@ -29,13 +29,13 @@ export default function Context({ children }: ContextProp) {
     const [ elementWidth , setElementWidth ] = useState<number | null>(null);
     const [ theme, setTheme ] = useState<string>('light')
 
-    const handleSubmit: HandleSubmitType = ( title, status ) => {
+    const handleSubmit: HandleSubmitType = ( title, completed ) => {
         const id = uuid()
-        dispatch({type: 'CREATE_NEW_TODO' , payload:{ id, title, status}})       
+        dispatch({type: 'CREATE_NEW_TODO' , payload:{ id, title, completed}})       
     }
 
-    const handleStateFilter: HandleFilter = ( status ) => {
-        dispatch({ type: 'HANDLE_STATE_FILTER', payload:{ status }})
+    const handleStateFilter: HandleFilter = ( completed ) => {
+        dispatch({ type: 'HANDLE_STATE_FILTER', payload:{ completed }})
     }
     
     const handleDisplayAll: HandleDisplayAll = () => {
