@@ -5,8 +5,13 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import iconMoon from './assets/todo-app-main/images/icon-moon.svg' 
 import iconSun from './assets/todo-app-main/images/icon-sun.svg'
 import { useToggle } from './components/hooks/useToggle';
+import { getFirestore } from "firebase/firestore";
+import { collection, setDoc, doc } from "firebase/firestore"; 
+import { app } from './components/Context';
+
 
 export const auth = getAuth()
+export const db = getFirestore(app);
 
 export default function LoginAuth() {
 
@@ -20,11 +25,9 @@ export default function LoginAuth() {
         e.preventDefault()
         // sign up
         createUserWithEmailAndPassword(auth, email, password)
-         .then((userCredential) => {
-         const user = userCredential.user;
-         console.log(user)
+         .then(() => {
          navigate('/my-todo')
-        })
+         }) 
        .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;

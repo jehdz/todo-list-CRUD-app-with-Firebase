@@ -17,9 +17,10 @@ const firebaseConfig = {
     measurementId: "G-QMG7FW0DN1"
   };
 
-export const app = initializeApp(firebaseConfig);
+  export const app = initializeApp(firebaseConfig);
+  
 
-const initialState : State = []
+  const initialState : State = []
  
 export const AppContext = React.createContext({} as ValueProp);
 

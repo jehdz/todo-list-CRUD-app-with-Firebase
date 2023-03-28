@@ -1,9 +1,6 @@
 import { State } from "./types"
 import { ActionType } from "./types"
-import { getFirestore } from "firebase/firestore";
-import { app } from "./Context";
 
-const db = getFirestore(app);
 
 export const reducer = ( state: State, action: ActionType) : State => {
 
