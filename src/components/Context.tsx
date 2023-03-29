@@ -29,7 +29,7 @@ export default function Context({ children }: ContextProp) {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [ elementWidth , setElementWidth ] = useState<number | null>(null);
     const [ theme, setTheme ] = useState<string>('light')
-
+    const [ userId, setUserId ] = useState<string>('')
     const handleSubmit: HandleSubmitType = ( title, completed ) => {
         const id = uuid()
         dispatch({type: 'CREATE_NEW_TODO' , payload:{ id, title, completed}})       
@@ -57,7 +57,7 @@ export default function Context({ children }: ContextProp) {
 
     return (
         <AppContext.Provider value={{ theme, setTheme, elementWidth, setElementWidth, state, 
-        handleSubmit, handleStateFilter, handleDelete, handleComplete, handleClearCompleted}}>
+        handleSubmit, handleStateFilter, handleDelete, handleComplete, handleClearCompleted, userId, setUserId}}>
             {children}
          </AppContext.Provider>
     )

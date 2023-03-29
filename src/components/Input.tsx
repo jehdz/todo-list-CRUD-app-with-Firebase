@@ -2,30 +2,27 @@ import { useState } from "react"
 import { useGlobalContext } from "./Context";
 import { collection, getFirestore } from "firebase/firestore";
 import { app } from './Context'
-import { addDoc, doc } from "firebase/firestore"; 
-import { auth } from "../login-auth";
+import { addDoc } from "firebase/firestore"; 
 
+export const db = getFirestore(app);
 
 export default function Input() {
     
-    const db = getFirestore(app);
-    const { handleSubmit } = useGlobalContext()
-    const [title, setTitle ] = useState<string>('');
-
-    const userId = auth.currentUser?.uid
+    const { handleSubmit, userId } = useGlobalContext()
+    const [ title, setTitle ] = useState<string>('');
 
     const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
         e.preventDefault();
-        if(userId) {
             try {
                 await addDoc(collection(db, 'users', userId, 'tasks'), {
-                     title
+                     title,
+                     completed: false,
                  })
                 console.log('successfully added')
             }
             catch(e) {
-                console.log(e)
-            }
+                console.log(e, 'unsuccessful')
         }
         handleSubmit(title, false)
         setTitle('')

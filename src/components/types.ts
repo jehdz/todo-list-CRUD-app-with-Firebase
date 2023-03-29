@@ -52,16 +52,19 @@ export type HandleClearCompleted = {
 
 export type ValueProp = {
     // dark mode/ light mode
-    theme:string
-    setTheme:React.Dispatch<React.SetStateAction<string>>
-    elementWidth: number | null
-    setElementWidth: React.Dispatch<React.SetStateAction<number | null>>
-    state: State
-    handleSubmit: HandleSubmitType
-    handleStateFilter: HandleFilter
-    handleDelete: HandleDelete
-    handleComplete: HandleComplete
+    theme:string;
+    userId: string;
+    setUserId: React.Dispatch<React.SetStateAction<string>>;
+    setTheme:React.Dispatch<React.SetStateAction<string>>;
+    elementWidth: number | null;
+    setElementWidth: React.Dispatch<React.SetStateAction<number | null>>;
+    state: State;
+    handleSubmit: HandleSubmitType;
+    handleStateFilter: HandleFilter;
+    handleDelete: HandleDelete,
+    handleComplete: HandleComplete;
     handleClearCompleted: HandleClearCompleted;
+
 }
 
 export type ContextProp = {

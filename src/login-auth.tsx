@@ -5,18 +5,13 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import iconMoon from './assets/todo-app-main/images/icon-moon.svg' 
 import iconSun from './assets/todo-app-main/images/icon-sun.svg'
 import { useToggle } from './components/hooks/useToggle';
-import { getFirestore } from "firebase/firestore";
-import { collection, setDoc, doc } from "firebase/firestore"; 
-import { app } from './components/Context';
-
 
 export const auth = getAuth()
-export const db = getFirestore(app);
 
 export default function LoginAuth() {
 
     const navigate = useNavigate();
-    const { theme } = useGlobalContext();
+    const { theme, userId, setUserId } = useGlobalContext();
     const [ email, setEmail ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
     const [ signUp, setSignUp ] = useState<boolean>(false)
@@ -26,6 +21,7 @@ export default function LoginAuth() {
         // sign up
         createUserWithEmailAndPassword(auth, email, password)
          .then(() => {
+          // const userId = auth.currentUser?.uid
          navigate('/my-todo')
          }) 
        .catch((error) => {
@@ -41,7 +37,7 @@ export default function LoginAuth() {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user)
+        setUserId(user.uid) //this way, it is only a string
         navigate('/my-todo')
       })
       .catch((error) => {
