@@ -2,7 +2,9 @@ import iconCross from '../assets/todo-app-main/images/icon-cross.svg'
 import { useEffect, useRef, useState } from 'react'
 import { useGlobalContext } from './Context';
 import { motion, AnimatePresence } from "framer-motion"
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { QuerySnapshot, QueryDocumentSnapshot, collection, 
+   updateDoc, deleteDoc, doc, onSnapshot, 
+   query, where, getDocs } from "firebase/firestore";
 import { db } from './Input';
 
 type Task = {
@@ -12,17 +14,30 @@ type Task = {
 }[];
 
 export default function List() {
-   
-   const { setElementWidth, state, handleStateFilter, handleComplete, handleClearCompleted, userId } = useGlobalContext();
-   
-     const elementOneRef = useRef<HTMLParagraphElement>(null!);  
-     const elementTwoRef = useRef<HTMLDivElement>(null!);  
-     const elementThreeRef = useRef<HTMLParagraphElement>(null!);  
-     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-     // tasks   
-     const [ tasks, setTasks ] = useState<Task | null>(null);
- 
-     useEffect(() => {
+
+   const { setElementWidth, userId } = useGlobalContext();
+   const docRef = collection(db, `users/${userId}/tasks`); //docRef
+   const elementOneRef = useRef<HTMLParagraphElement>(null!);  
+   const elementTwoRef = useRef<HTMLDivElement>(null!);  
+   const elementThreeRef = useRef<HTMLParagraphElement>(null!);  
+   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);  
+   const [ tasks, setTasks ] = useState<Task | null>(null); //tasks
+   const [ completedTasksCount, setCompletedTasksCount ] = useState<number>()
+
+   const mapQuerySnapshotToTasks = (querySnapshot: QuerySnapshot<any>): Task => {
+      return ( 
+         querySnapshot.docs.map((doc: QueryDocumentSnapshot<any>) => {
+         const data = doc.data();
+         return {  //return data compatible with data types specified in the tasks variable 
+             title: data.title,
+             completed: data.completed,
+             id: doc.id,
+               }
+      })) 
+   }
+   // for resize of the footer
+
+    useEffect(() => {
       const handleResize = ():void => {
       setWindowWidth(window.innerWidth);
       }
@@ -34,37 +49,73 @@ export default function List() {
     setElementWidth(elementTwoRef.current.getBoundingClientRect().width)
    }, [windowWidth]);
 
-   useEffect(() => {(async () => {
-   try {
-       const querySnapshot = await getDocs(collection(db, `users/${userId}/tasks`));
-       const mappedData = querySnapshot.docs.map((doc) => {
-         const data = doc.data();
-         return {  //return data compatible with data types specified in the tasks variable 
-            title: data.title,
-            completed: data.completed,
-            id: doc.id,
-          }
-       });
-       setTasks(mappedData)
+   // fetch data from firestore
+    useEffect(() => {
+      if(userId !== '') {
+         // onSnapshot so I can get data update real-time
+         const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
+               const tasks = mapQuerySnapshotToTasks(querySnapshot);
+               setTasks(tasks)              
+         });
+         return () => {
+            unsubscribe();
+         };
       }
-      catch(e) {
-         console.log(e)     
-      }
-   })() //IIFE
-    }, [userId])
+      }, [userId])
+
+   useEffect(() => {
+         const unsubscribe = onSnapshot(query(docRef, where('completed', '==', false)), (q) => {
+           setCompletedTasksCount(q.docs.length);
+         });
+         return unsubscribe;
+   }, [docRef]);
 
    const handleDelete = async (id: string): Promise<void> => {
       await deleteDoc(doc(db, `users/${userId}/tasks/${id}`));
    }
 
-     return (
+   const handleComplete = async (id: string, completed: boolean): Promise<void> => {
+      await updateDoc(doc(db, `users/${userId}/tasks/${id}`), {
+          completed: !completed
+      })
+  }
+
+   const handleFilter = async (val: boolean): Promise<void> => {
+   const q = query(docRef, where("completed", "==", val)) //get collection with respect to if completed is true or not
+   const querySnapshot = await getDocs(q)
+   const tasks = mapQuerySnapshotToTasks(querySnapshot) //fetch the document in the collection
+   setTasks(tasks);
+   // const abstract = abstractedFunction(querySnapshot)
+   // const mappedData = querySnapshot.docs.map((doc) => {
+   //    const data = doc.data();
+   //    return {  //return data compatible with data types specified in the tasks variable 
+   //        title: data.title,
+   //        completed: data.completed,
+   //        id: doc.id,
+   //          }
+   //        }); 
+   }
+
+   const handleClearCompleted = async (): Promise<void> => {
+    const q = await getDocs(query(docRef, where("completed", "==", true))); //get the document so we can loop through
+    q.forEach( async (doc) => { //loop through
+      await deleteDoc(doc.ref);
+    })
+   }
+
+   const handleFetchAll = async (): Promise<void> => {      
+     const querySnapshot = await getDocs(docRef);
+     const tasks = mapQuerySnapshotToTasks(querySnapshot)
+     setTasks(tasks); 
+   }
+
+   return (
       <div className='relative my-4'>
         <div className="list rounded-md bg-white shadow-lg w-full">
          {
             tasks ? ( //since tasks might be undefined 
                tasks.map(task => {
                const { id, title, completed } = task;
-   
                return (
                  <AnimatePresence key={id}>
                  <motion.div 
@@ -76,10 +127,10 @@ export default function List() {
                  <div className='py-4 px-4 flex justify-between items-center'>       
                  <div className='flex space-x-3'>
    
-                 <label className='text-sm flex font-bold list-text'>
+                 <label className='text-sm flex font-bold cursor-pointer list-text'>
                  <input type="checkbox"
                  checked={completed} 
-                 onChange={() => handleComplete(id!)}
+                 onChange={() => handleComplete(id, completed)}
                  className="w-4 h-4 mr-3
                  focus:ring-0 rounded-full checked:bg-gradient-to-r
                  checked:from-pblue checked:to-ppurple 
@@ -104,21 +155,43 @@ export default function List() {
          }
 
         </div>
-         <footer className=' w-full drag-color font-bold py-4 px-4 flex justify-between'>
-         <p ref={elementOneRef} className='text-xs'>{state.filter(item => item.completed === false).length} items left</p>
+        <footer>
+         <div className='w-full drag-color font-bold py-4 px-4 flex justify-between'>
+         <p ref={elementOneRef} className='text-xs'>
+            {completedTasksCount} items left`
+          </p>
          <div ref={elementTwoRef} 
             className='flex-1 hidden md:flex justify-center items-center space-x-3 text-sm'>
-               <p className='cursor-pointer'>All</p>  
-               <p className='cursor-pointer'
-                  onClick={() => handleStateFilter(false)}>Active
+               <p 
+                 onClick={handleFetchAll}
+                 className='cursor-pointer'>All</p>  
+               <p 
+                  className='cursor-pointer'
+                  onClick={() => handleFilter(false)}>
+               Active
                </p>  
                <p className='cursor-pointer'
-                  onClick={() => handleStateFilter(true)}>Completed
+                  onClick={() => handleFilter(true)}>Completed
                </p>  
             </div>
-            <p ref={elementThreeRef} className='cursor-pointer text-xs'
+             <p ref={elementThreeRef} className='cursor-pointer text-xs'
              onClick={handleClearCompleted}>Clear Completed</p>
-         </footer>
+                </div>
+             <div className='list drag-color flex justify-center items-center md:hidden space-x-3 bg-white py-4 rounded-md shadow-lg'>
+             <p 
+              onClick={handleFetchAll}>
+              All
+             </p>  
+             <p
+              onClick={() => handleFilter(false)}>
+               Active
+             </p>  
+             <p
+              onClick={() => handleFilter(true)}>
+              Completed
+             </p>  
+             </div>
+           </footer>
          </div>
      )
 }

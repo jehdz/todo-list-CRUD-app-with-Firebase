@@ -37,7 +37,8 @@ export default function LoginAuth() {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
         const user = userCredential.user;
-        setUserId(user.uid) //this way, it is only a string
+        setUserId(user.uid) //this way, it is only a string and not string | undefined as before
+        console.log(userId)
         navigate('/my-todo')
       })
       .catch((error) => {

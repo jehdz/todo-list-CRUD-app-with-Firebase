@@ -8,7 +8,7 @@ export const db = getFirestore(app);
 
 export default function Input() {
     
-    const { handleSubmit, userId } = useGlobalContext()
+    const { userId } = useGlobalContext()
     const [ title, setTitle ] = useState<string>('');
 
     const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,13 +19,12 @@ export default function Input() {
                      title,
                      completed: false,
                  })
+                setTitle('')
                 console.log('successfully added')
             }
             catch(e) {
                 console.log(e, 'unsuccessful')
         }
-        handleSubmit(title, false)
-        setTitle('')
     }
 
     return (

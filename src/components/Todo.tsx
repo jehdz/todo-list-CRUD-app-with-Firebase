@@ -30,12 +30,7 @@ export default function Todo() {
     <div className='w-full md:w-[500px] lg:w-1/3'>
      <ListContainer/>
      <footer>
-        <div className='list drag-color flex justify-center items-center md:hidden space-x-3 bg-white py-4 rounded-md shadow-lg'>
-          <p>All</p>  
-          <p>Active</p>  
-          <p>Completed</p>  
-        </div>
-        <div className='px-4 flex justify-center items-center mt-8'>
+      <div className='px-4 flex justify-center items-center mt-8'>
         {
           elementWidth ? (
           <div style={{
