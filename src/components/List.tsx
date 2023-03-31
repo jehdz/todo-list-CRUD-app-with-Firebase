@@ -158,7 +158,7 @@ export default function List() {
         <footer>
          <div className='w-full drag-color font-bold py-4 px-4 flex justify-between'>
          <p ref={elementOneRef} className='text-xs'>
-            {completedTasksCount} items left`
+            {completedTasksCount} items left
           </p>
          <div ref={elementTwoRef} 
             className='flex-1 hidden md:flex justify-center items-center space-x-3 text-sm'>
