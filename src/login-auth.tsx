@@ -14,8 +14,10 @@ export default function LoginAuth() {
     const { theme, userId, setUserId } = useGlobalContext();
     const [ email, setEmail ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
-    const [ signUp, setSignUp ] = useState<boolean>(false)
-
+    const [ signUp, setSignUp ] = useState<boolean>(false);
+    const [ authError, setAuthError ] = useState<boolean>(false);
+    const [ errorMsg, setErrorMsg ] = useState<string>('')
+    
     const handleSignUp = (e: React.FormEvent<HTMLButtonElement> ) => {
         e.preventDefault()
         // sign up
@@ -45,7 +47,7 @@ export default function LoginAuth() {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage)
-  });
+      });
     }
 
     const handleToggle = useToggle()
