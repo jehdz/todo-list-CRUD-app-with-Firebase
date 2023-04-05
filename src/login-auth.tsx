@@ -1,17 +1,17 @@
 import React, { useState } from 'react' 
 import {  useNavigate } from 'react-router-dom'
 import { useGlobalContext } from './components/Context'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import iconMoon from './assets/todo-app-main/images/icon-moon.svg' 
 import iconSun from './assets/todo-app-main/images/icon-sun.svg'
 import { useToggle } from './components/hooks/useToggle';
+import { auth } from './components/firebaseConfig';
 
-export const auth = getAuth()
 
 export default function LoginAuth() {
 
     const navigate = useNavigate();
-    const { theme, userId, setUserId } = useGlobalContext();
+    const { theme, setUserId } = useGlobalContext();
     const [ email, setEmail ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
     const [ signUp, setSignUp ] = useState<boolean>(false);

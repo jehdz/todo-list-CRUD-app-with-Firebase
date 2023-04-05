@@ -1,8 +1,7 @@
 import TodoMain from './components/Todo'
-import Context, { useGlobalContext } from './components/Context'
-import { auth } from './login-auth'
+import  { useGlobalContext } from './components/Context'
+import { auth } from './components/firebaseConfig'
 import { Navigate } from 'react-router-dom'
-import { collection } from "firebase/firestore";
 
 export default function Todo() {
 

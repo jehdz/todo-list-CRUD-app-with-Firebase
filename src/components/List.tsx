@@ -5,9 +5,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { QuerySnapshot, QueryDocumentSnapshot, collection, 
    updateDoc, deleteDoc, doc, onSnapshot, 
    query, where, getDocs } from "firebase/firestore";
-import { db } from './Input';
+import { db } from './firebaseConfig';
 import { Reorder } from 'framer-motion';
-
 
 type Task = {
    title: string,

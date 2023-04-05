@@ -1,10 +1,8 @@
 import { useState } from "react"
 import { useGlobalContext } from "./Context";
-import { collection, getFirestore } from "firebase/firestore";
-import { app } from './Context'
+import { collection } from "firebase/firestore";
 import { addDoc } from "firebase/firestore"; 
-
-export const db = getFirestore(app);
+import { db } from "./firebaseConfig";
 
 export default function Input() {
     
