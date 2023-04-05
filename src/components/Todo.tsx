@@ -40,7 +40,7 @@ export default function Todo() {
         }
         <p style={{
             width: elementWidth ? `${elementWidth}px` : ''}} 
-            ref={elementRef} className='drag-color flex-1 text-center text-xs'>
+            ref={elementRef} className='footer-color flex-1 text-center text-xs'>
             Drag and drop to reorder list
         </p>
         {

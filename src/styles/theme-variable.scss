@@ -4,10 +4,12 @@ $themes: (
     bodyBackground: hsl(0, 0%, 98%),
     list: #fff,
     textColor: #000, 
-    dragColor: hsl(237, 14%, 26%),
+    footerColor: rgb(213,213,218),
     borderBottom:hsl(233, 11%, 84%),
     listText:rgb(84,82,90),
-    completed:rgb(74,76,99)
+    completed:rgb(198,199,204),
+    footerHover:rgb(84,82,90),
+
     // listFooter:
   ),
 
@@ -15,10 +17,11 @@ $themes: (
     bodyBackground: hsl(235, 21%, 11%),
     list: hsl(235, 24%, 19%),
     textColor: #eff2f7,
-    dragColor: hsl(235, 19%, 35%),
+    footerColor: hsl(235, 19%, 35%),
     borderBottom: hsl(233, 11%, 84%),
     listText:rgb(202,205,227),
-    completed:rgb(223,225,230),
+    completed:rgb(80,82,105),
+    footerHover: white,
   ),
 );
 

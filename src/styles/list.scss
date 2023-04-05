@@ -70,9 +70,9 @@
     }
 }
 
-.drag-color {
+.footer-color {
     @include themify($themes) {
-        color: themed('dragColor');
+        color: themed('footerColor');
       } 
 }
 
@@ -86,5 +86,14 @@
     @include themify($themes) {
         color: themed('listText');
       }  
+}
+.list-footer-text:hover {
+  @include themify($themes) {
+    color: themed('footerHover');
+  }  
+}
+
+.active-color {
+  color: rgb(84,128,216);
 }
 

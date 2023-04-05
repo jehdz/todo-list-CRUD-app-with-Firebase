@@ -23,6 +23,7 @@ export default function List() {
    const elementThreeRef = useRef<HTMLParagraphElement>(null!);  
    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);  
    const [ tasks, setTasks ] = useState<Task>([]); //tasks
+   const [ activeState, setActiveState ] = useState<string>('All');
    const [ completedTasksCount, setCompletedTasksCount ] = useState<number>()
 
    const mapQuerySnapshotToTasks = (querySnapshot: QuerySnapshot<any>): Task => {
@@ -82,6 +83,7 @@ export default function List() {
   }
 
    const handleFilter = async (val: boolean): Promise<void> => {
+   setActiveState(val ? 'Completed' : 'Active')
    const q = query(docRef, where("completed", "==", val)) //get collection with respect to if completed is true or not
    const querySnapshot = await getDocs(q)
    const tasks = mapQuerySnapshotToTasks(querySnapshot) //fetch the document in the collection
@@ -104,7 +106,8 @@ export default function List() {
     })
    }
 
-   const handleFetchAll = async (): Promise<void> => {      
+   const handleFetchAll = async (): Promise<void> => {    
+     setActiveState('All')  
      const querySnapshot = await getDocs(docRef);
      const tasks = mapQuerySnapshotToTasks(querySnapshot)
      setTasks(tasks); 
@@ -161,7 +164,7 @@ export default function List() {
         </Reorder.Group>
         </div>
         <footer>
-         <div className='w-full drag-color font-bold py-4 px-4 flex justify-between'>
+         <div className='w-full footer-color font-bold py-4 px-4 flex justify-between'>
          <p ref={elementOneRef} className='text-xs'>
             {completedTasksCount} items left
           </p>
@@ -169,29 +172,29 @@ export default function List() {
             className='flex-1 hidden md:flex justify-center items-center space-x-3 text-sm'>
                <p 
                  onClick={handleFetchAll}
-                 className='cursor-pointer'>All</p>  
+                 className={`${activeState === 'All' ? 'active-color' : ''} list-footer-text cursor-pointer`}>All</p>  
                <p 
-                  className='cursor-pointer'
+                  className={`${activeState === 'Active' ? 'active-color' : ''} list-footer-text cursor-pointer`}
                   onClick={() => handleFilter(false)}>
-               Active
+                  Active
                </p>  
-               <p className='cursor-pointer'
+               <p className={`${activeState === 'Completed' ? 'active-color' : ''} list-footer-text cursor-pointer`}
                   onClick={() => handleFilter(true)}>Completed
                </p>  
             </div>
-             <p ref={elementThreeRef} className='cursor-pointer text-xs'
+             <p ref={elementThreeRef} className='list-footer cursor-pointer text-xs'
              onClick={handleClearCompleted}>Clear Completed</p>
                 </div>
-             <div className='list drag-color flex justify-center items-center md:hidden space-x-3 bg-white py-4 rounded-md shadow-lg'>
-             <p 
+             <div className='list footer-color flex justify-center items-center md:hidden space-x-3 bg-white py-4 rounded-md shadow-lg'>
+             <p className={`${activeState === 'All' ? 'active-color' : ''} list-footer-text`}
               onClick={handleFetchAll}>
               All
              </p>  
-             <p
+             <p className={`${activeState === 'Active' ? 'active-color' : ''} list-footer-text`}
               onClick={() => handleFilter(false)}>
                Active
              </p>  
-             <p
+             <p className={`${activeState === 'Completed' ? 'active-color' : ''} list-footer-text`}
               onClick={() => handleFilter(true)}>
               Completed
              </p>  
