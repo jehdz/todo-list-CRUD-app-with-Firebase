@@ -18,9 +18,17 @@ export const app = initializeApp(firebaseConfig);
 export const AppContext = React.createContext({} as ValueProp);
 
 export default function Context({ children }: ContextProp) {
+
+    const isBrowserDefaultDark = ():boolean => window.matchMedia('(prefers-color-scheme: dark)').matches;
     
+    const getDefaultTheme = (): string => {
+        const localStorageTheme = localStorage.getItem('default-theme');
+        const browserDefault = isBrowserDefaultDark() ? 'dark' : 'light';
+        return localStorageTheme || browserDefault;
+      };
+
     const [ elementWidth , setElementWidth ] = useState<number | null>(null);
-    const [ theme, setTheme ] = useState<string>('light')
+    const [ theme, setTheme ] = useState<string>(getDefaultTheme())
     const [ userId, setUserId ] = useState<string>('')
 
     return (

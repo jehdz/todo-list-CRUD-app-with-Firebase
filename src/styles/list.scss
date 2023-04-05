@@ -27,6 +27,15 @@
      }
   }
     
+  .error-msg {
+     color: hsl(0, 80%, 50%);
+     font-weight: bold;
+  }
+
+  .success-msg {
+     color: hsl(120, 70%, 50%);
+  }
+
   .auth-card {
       @include themify($themes) {
         background: themed('list');

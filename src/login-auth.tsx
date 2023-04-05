@@ -15,16 +15,18 @@ export default function LoginAuth() {
     const [ email, setEmail ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
     const [ signUp, setSignUp ] = useState<boolean>(false);
-    const [ authError, setAuthError ] = useState<boolean>(false);
-    const [ errorMsg, setErrorMsg ] = useState<string>('')
+    // const [ authError, setAuthError ] = useState<boolean>(false);
+    const [ helperText, setHelperText ] = useState<string>('')
     
     const handleSignUp = (e: React.FormEvent<HTMLButtonElement> ) => {
         e.preventDefault()
         // sign up
         createUserWithEmailAndPassword(auth, email, password)
          .then(() => {
+          setHelperText('Congrats!, you can now Sign In')
+          setTimeout(() => setHelperText(''), 2000)
+          setSignUp(!signUp)
           // const userId = auth.currentUser?.uid
-         navigate('/my-todo')
          }) 
        .catch((error) => {
         const errorCode = error.code;
@@ -40,35 +42,37 @@ export default function LoginAuth() {
         .then((userCredential) => {
         const user = userCredential.user;
         setUserId(user.uid) //this way, it is only a string and not string | undefined as before
-        console.log(userId)
         navigate('/my-todo')
-      })
+         })
       .catch((error) => {
       const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage)
+      (errorCode === 'auth/user-not-found!') ?
+        setHelperText('Email is not registered!') :
+        setHelperText('Invalid password')
+        setTimeout(() => setHelperText(''), 2000)
       });
     }
 
     const handleToggle = useToggle()
 
     return (
-        <div className={`theme-${theme}`}>
+      <div className={`theme-${theme}`}>
         <div className='list-body relative h-screen flex justify-center items-center'>
         <div 
         onClick={handleToggle}
         className='bg-black absolute top-4 right-8'>
           {
-        theme === 'light' ?
-        <img src={iconMoon} alt='moon' className='object-contain cursor-pointer'/>
-        : <img src={iconSun} alt='moon' className='object-contain cursor-pointer'/>
-         }
-            </div>
-        <div className='auth-card list-text rounded-md shadow-2xl p-8'>
+            theme === 'light' ?
+            <img src={iconMoon} alt='moon' className='object-contain cursor-pointer'/>
+            : <img src={iconSun} alt='moon' className='object-contain cursor-pointer'/>
+          }
+        </div>
+        <div className='relative auth-card list-text rounded-md shadow-2xl p-8'>
+        <p className={`${(helperText === 'Congrats!, you can now Sign In') ? 'success-msg': 'error-msg' } w-full 
+        absolute top-1 left-0 text-center`}>{helperText}</p>
            <p className='text-center text-3xl list-text'>Welcome</p> 
            <form className='mt-4'>
             <div className='w-72'>
-
             <label
             htmlFor='eMailField'
             className='font-bold'>
@@ -99,7 +103,6 @@ export default function LoginAuth() {
             className='mt-1 outline-none rounded-lg w-full h-8 list'
             placeholder='******'
             onChange={(e) => setPassword(e.target.value)}/>
-
            </div>
            
            <button
@@ -113,7 +116,7 @@ export default function LoginAuth() {
            onClick={() => setSignUp(!signUp)}
            className='font-bold cursor-pointer'>{signUp ? ' Sign In' : ' Sign Up'}</span></p>
            </form>
-        </div>
+        </div>   
         </div>
         </div>
     )

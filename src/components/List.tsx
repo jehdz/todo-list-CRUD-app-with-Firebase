@@ -6,6 +6,8 @@ import { QuerySnapshot, QueryDocumentSnapshot, collection,
    updateDoc, deleteDoc, doc, onSnapshot, 
    query, where, getDocs } from "firebase/firestore";
 import { db } from './Input';
+import { Reorder } from 'framer-motion';
+
 
 type Task = {
    title: string,
@@ -21,7 +23,7 @@ export default function List() {
    const elementTwoRef = useRef<HTMLDivElement>(null!);  
    const elementThreeRef = useRef<HTMLParagraphElement>(null!);  
    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);  
-   const [ tasks, setTasks ] = useState<Task | null>(null); //tasks
+   const [ tasks, setTasks ] = useState<Task>([]); //tasks
    const [ completedTasksCount, setCompletedTasksCount ] = useState<number>()
 
    const mapQuerySnapshotToTasks = (querySnapshot: QuerySnapshot<any>): Task => {
@@ -112,12 +114,18 @@ export default function List() {
    return (
       <div className='relative my-4'>
         <div className="list rounded-md bg-white shadow-lg w-full">
+        <Reorder.Group
+         axis="y"
+         values={tasks} 
+         layoutScroll
+         onReorder={setTasks}>
          {
-            tasks ? ( //since tasks might be undefined 
+            tasks.length > 0 && ( //since tasks may be undefined 
                tasks.map(task => {
                const { id, title, completed } = task;
                return (
-                 <AnimatePresence key={id}>
+               <AnimatePresence key={id}>
+               <Reorder.Item value={task}>
                  <motion.div 
                    initial={{ y: -30, opacity: 0 }}
                    animate={{ y: 0, opacity: 1 }}
@@ -148,12 +156,10 @@ export default function List() {
                  className='object-contain cursor-pointer'/>
                  </div> 
                  </motion.div>
+                  </Reorder.Item>
                  </AnimatePresence>
-               )
-               })
-            ) : <p className='text-center text-sm'>Loading Todos</p>
-         }
-
+               )}))}
+        </Reorder.Group>
         </div>
         <footer>
          <div className='w-full drag-color font-bold py-4 px-4 flex justify-between'>
