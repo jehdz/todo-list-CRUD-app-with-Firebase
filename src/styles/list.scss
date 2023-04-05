@@ -46,6 +46,11 @@
           color: themed('listText');
       }
       }
+      button:hover {
+        @include themify($themes) {
+          border: 1px solid themed('footerHover');
+        }  
+      }
   }
 
   .list-body {

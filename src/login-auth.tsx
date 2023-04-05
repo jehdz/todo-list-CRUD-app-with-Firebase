@@ -108,7 +108,7 @@ export default function LoginAuth() {
            <button
            type='submit'
            onClick={!signUp ? handleSignIn : handleSignUp}
-           className='border border-2 py-1 rounded-lg mt-4 w-full font-bold'>
+           className='border py-1 rounded-lg mt-4 w-full font-bold'>
              { !signUp ? 'Sign In' : 'Sign Up'}
            </button>
            <p className='mt-4'>{!signUp ? "Don't have an account?": 'Already have an account?'}
