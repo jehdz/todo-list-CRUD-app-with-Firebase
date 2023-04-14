@@ -2,9 +2,6 @@ import React, { useState } from 'react'
 import {  useNavigate } from 'react-router-dom'
 import { useGlobalContext } from './components/Context'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import iconMoon from './assets/todo-app-main/images/icon-moon.svg' 
-import iconSun from './assets/todo-app-main/images/icon-sun.svg'
-import { useToggle } from './components/hooks/useToggle';
 import { auth } from './components/firebaseConfig';
 
 
@@ -53,7 +50,6 @@ export default function LoginAuth() {
       });
     }
 
-    const handleToggle = useToggle()
 
     return (
       <div className={`theme-${theme}`}>
