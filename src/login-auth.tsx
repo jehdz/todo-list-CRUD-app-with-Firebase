@@ -58,15 +58,6 @@ export default function LoginAuth() {
     return (
       <div className={`theme-${theme}`}>
         <div className='list-body relative h-screen flex justify-center items-center'>
-        <div 
-        onClick={handleToggle}
-        className='bg-black absolute top-4 right-8'>
-          {
-            theme === 'light' ?
-            <img src={iconMoon} alt='moon' className='object-contain cursor-pointer'/>
-            : <img src={iconSun} alt='moon' className='object-contain cursor-pointer'/>
-          }
-        </div>
         <div className='relative auth-card list-text rounded-md shadow-2xl p-8'>
         <p className={`${(helperText === 'Congrats!, you can now Sign In') ? 'success-msg': 'error-msg' } w-full 
         absolute top-1 left-0 text-center`}>{helperText}</p>

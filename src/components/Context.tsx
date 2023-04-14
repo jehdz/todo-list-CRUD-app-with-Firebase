@@ -1,8 +1,7 @@
-import React, { useContext, useState, useReducer } from "react";
-import { ValueProp } from "./types";
-import { ContextProp } from "./types";
+import React, { useContext, useState } from "react";
+import { ValueProp, ContextProp } from "./types";
  
-export const AppContext = React.createContext({} as ValueProp);
+export const AppContext = React.createContext({} as ValueProp); //create the context API
 
 export default function Context({ children }: ContextProp) {
 

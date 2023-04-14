@@ -24,7 +24,7 @@ export default function List() {
    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);  
    const [ tasks, setTasks ] = useState<Task>([]); //tasks
    const [ activeState, setActiveState ] = useState<string>('All');
-   const [ completedTasksCount, setCompletedTasksCount ] = useState<number>()
+   const [ completedTasksCount, setCompletedTasksCount ] = useState<number>(0)
 
    const mapQuerySnapshotToTasks = (querySnapshot: QuerySnapshot<any>): Task => {
       return ( 
@@ -88,8 +88,7 @@ export default function List() {
    const querySnapshot = await getDocs(q)
    const tasks = mapQuerySnapshotToTasks(querySnapshot) //fetch the document in the collection
    setTasks(tasks);
-   // const abstract = abstractedFunction(querySnapshot)
-   // const mappedData = querySnapshot.docs.map((doc) => {
+   // const tasks = querySnapshot.docs.map((doc) => {
    //    const data = doc.data();
    //    return {  //return data compatible with data types specified in the tasks variable 
    //        title: data.title,

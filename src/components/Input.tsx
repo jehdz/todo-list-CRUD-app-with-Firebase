@@ -9,24 +9,25 @@ export default function Input() {
     const { userId } = useGlobalContext()
     const [ title, setTitle ] = useState<string>('');
 
-    const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if(title !== '') {
             try {
                 await addDoc(collection(db, 'users', userId, 'tasks'), {
                      title,
                      completed: false,
                  })
                 setTitle('')
-                console.log('successfully added')
+                console.log('Task successfully added')
             }
             catch(e) {
-                console.log(e, 'unsuccessful')
-        }
+                console.log('Unsuccessful')
+            }
+          }
     }
 
     return (
-        <form onSubmit={formSubmit}>
+        <form onSubmit={handleSubmit}>
             <input value={title} 
             onChange={(e) => setTitle(e.target.value)}
             placeholder='Create a new todo...'
