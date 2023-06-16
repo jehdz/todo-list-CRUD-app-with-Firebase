@@ -17,11 +17,13 @@ type Task = {
 export default function List() {
 
    const { setElementWidth, userId } = useGlobalContext();
-   const docRef = collection(db, `users/${userId}/tasks`); //docRef
+   const idFromSessionStorage = JSON.parse(sessionStorage.getItem('uid')!)
+   const uid = userId ? userId : idFromSessionStorage
+   const docRef = collection(db, `users/${uid}/tasks`); //docRef
    const elementOneRef = useRef<HTMLParagraphElement>(null!);  
    const elementTwoRef = useRef<HTMLDivElement>(null!);  
    const elementThreeRef = useRef<HTMLParagraphElement>(null!);  
-   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);  
+   const [ windowWidth, setWindowWidth ] = useState<number>(window.innerWidth);  
    const [ tasks, setTasks ] = useState<Task>([]); //tasks
    const [ activeState, setActiveState ] = useState<string>('All');
    const [ completedTasksCount, setCompletedTasksCount ] = useState<number>(0)
@@ -42,6 +44,7 @@ export default function List() {
     useEffect(() => {
       const handleResize = ():void => {
       setWindowWidth(window.innerWidth);
+
       }
      window.addEventListener('resize', handleResize);
      return () => window.removeEventListener('resize', handleResize);
@@ -53,7 +56,7 @@ export default function List() {
 
    // fetch data from firestore
     useEffect(() => {
-      if(userId !== '') {
+      if(uid !== '') {
          // onSnapshot so I can get data update real-time
          const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
                const tasks = mapQuerySnapshotToTasks(querySnapshot);
@@ -63,7 +66,7 @@ export default function List() {
             unsubscribe();
          };
       }
-      }, [userId])
+      }, [uid])
 
    useEffect(() => {
          const unsubscribe = onSnapshot(query(docRef, where('completed', '==', false)), (q) => {
@@ -73,11 +76,11 @@ export default function List() {
    }, [docRef]);
 
    const handleDelete = async (id: string): Promise<void> => {
-      await deleteDoc(doc(db, `users/${userId}/tasks/${id}`));
+      await deleteDoc(doc(db, `users/${uid}/tasks/${id}`));
    }
 
    const handleComplete = async (id: string, completed: boolean): Promise<void> => {
-      await updateDoc(doc(db, `users/${userId}/tasks/${id}`), {
+      await updateDoc(doc(db, `users/${uid}/tasks/${id}`), {
           completed: !completed
       })
   }
@@ -88,14 +91,6 @@ export default function List() {
    const querySnapshot = await getDocs(q)
    const tasks = mapQuerySnapshotToTasks(querySnapshot) //fetch the document in the collection
    setTasks(tasks);
-   // const tasks = querySnapshot.docs.map((doc) => {
-   //    const data = doc.data();
-   //    return {  //return data compatible with data types specified in the tasks variable 
-   //        title: data.title,
-   //        completed: data.completed,
-   //        id: doc.id,
-   //          }
-   //        }); 
    }
 
    const handleClearCompleted = async (): Promise<void> => {

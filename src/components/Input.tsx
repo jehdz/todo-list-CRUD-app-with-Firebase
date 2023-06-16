@@ -8,20 +8,21 @@ export default function Input() {
     
     const { userId } = useGlobalContext()
     const [ title, setTitle ] = useState<string>('');
+    const idFromSessionStorage = JSON.parse(sessionStorage.getItem('uid')!)
+    const uid = userId ? userId : idFromSessionStorage
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(title !== '') {
             try {
-                await addDoc(collection(db, 'users', userId, 'tasks'), {
+                await addDoc(collection(db, 'users', uid, 'tasks'), {
                      title,
                      completed: false,
                  })
                 setTitle('')
-                console.log('Task successfully added')
             }
             catch(e) {
-                console.log('Unsuccessful')
+                console.log(e, 'Unsuccessful')
             }
           }
     }

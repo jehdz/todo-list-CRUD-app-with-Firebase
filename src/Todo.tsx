@@ -1,14 +1,14 @@
 import TodoMain from './components/Todo'
 import  { useGlobalContext } from './components/Context'
-import { auth } from './components/firebaseConfig'
 import { Navigate } from 'react-router-dom'
 
 export default function Todo() {
 
   const { theme } = useGlobalContext()
-
+  const authFromSessionStorage = sessionStorage.getItem('auth')
+  
     return (
-     (auth.currentUser !== null) ? ( 
+     (authFromSessionStorage) ? ( 
       <div className={`theme-${theme}`}>
       <TodoMain/>
       </div>

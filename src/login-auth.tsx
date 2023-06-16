@@ -39,6 +39,8 @@ export default function LoginAuth() {
         .then((userCredential) => {
         const user = userCredential.user;
         setUserId(user.uid) //this way, it is only a string and not string | undefined as before
+        sessionStorage.setItem('uid', JSON.stringify(user.uid))
+        sessionStorage.setItem('auth', JSON.stringify(auth))
         navigate('/my-todo')
          })
       .catch((error) => {
