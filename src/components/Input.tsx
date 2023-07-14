@@ -15,11 +15,11 @@ export default function Input() {
         e.preventDefault();
         if(title !== '') {
             try {
+                setTitle('')
                 await addDoc(collection(db, 'users', uid, 'tasks'), {
                      title,
                      completed: false,
                  })
-                setTitle('')
             }
             catch(e) {
                 console.log(e, 'Unsuccessful')
